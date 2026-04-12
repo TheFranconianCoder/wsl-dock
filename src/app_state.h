@@ -32,7 +32,7 @@ enum {
     WSL_TERMINATE_WAIT_MS     = 5000,
     APP_VERSION_MAJOR         = 0,
     APP_VERSION_MINOR         = 1,
-    APP_VERSION_PATCH         = 0,
+    APP_VERSION_PATCH         = 1,
 };
 
 #define WM_TRAYICON (WM_USER + 1)
