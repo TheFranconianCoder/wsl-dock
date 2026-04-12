@@ -1,0 +1,52 @@
+Language: C
+BasedOnStyle: LLVM
+Standard: Latest
+
+IndentWidth: 4
+UseTab: Never
+ColumnLimit: 120
+
+BreakBeforeBraces: Attach
+DerivePointerAlignment: false
+PointerAlignment: Left
+SpaceAroundPointerQualifiers: After
+QualifierAlignment: Left
+
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+InsertBraces: true
+
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+
+AlignConsecutiveDeclarations:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+
+SpaceAfterCStyleCast: false
+AlignArrayOfStructures: Left
+AlignAfterOpenBracket: Align
+AllowAllParametersOfDeclarationOnNextLine: false
+
+IncludeCategories:
+  - Regex:           '^<windows\.h>'
+    Priority:        1
+  - Regex:           '^<(win|shell|msg|commctrl|objbase|shlobj)\w*\.h>'
+    Priority:        2
+  - Regex:           '^<.*'
+    Priority:        3
+  - Regex:           '^".*'
+    Priority:        4
+
+SortIncludes: CaseSensitive
+IncludeBlocks: Regroup
+MaxEmptyLinesToKeep: 1
+
+IntegerLiteralSeparator:
+  Decimal: 3
+  Binary: 4
+  Hex: 2
