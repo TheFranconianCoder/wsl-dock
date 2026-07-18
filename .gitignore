@@ -25,6 +25,7 @@
 # zig specific files
 
 .zig-cache/
+zig-pkg/
 zig-out/
 
 ### Clion ###

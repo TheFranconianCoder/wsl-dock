@@ -1,1 +1,7 @@
--IC:\Users\sebas\Code\001_TheFranconianCoder\wsl-dock\src
+-O2
+-std=c23
+-Wall
+-Wextra
+-DUNICODE
+-D_UNICODE
+-Isrc
