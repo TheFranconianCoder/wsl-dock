@@ -67,8 +67,8 @@ static void sshStart(void) {
     if (hSshProc) {
         return;
     }
-    wchar_t cmd[256];
-    swprintf_s(cmd, 256, L"ssh -A localhost");
+    wchar_t cmd[512];
+    swprintf_s(cmd, 512, L"ssh -o ServerAliveInterval=15 -o ServerAliveCountMax=3 -o TCPKeepAlive=no -A localhost");
     if (!spawnHidden(cmd, &hSshProc)) {
         hSshProc = NULL;
     }
