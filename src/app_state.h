@@ -35,7 +35,7 @@ enum {
 
     APP_VERSION_MAJOR = 0,
     APP_VERSION_MINOR = 1,
-    APP_VERSION_PATCH = 4,
+    APP_VERSION_PATCH = 5,
 };
 
 #define WM_TRAYICON (WM_USER + 1)
