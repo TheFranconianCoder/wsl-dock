@@ -213,14 +213,12 @@ int main(void) { // NOLINT(*-function-cognitive-complexity)
                     AppState loaded = globalState;
                     globalState     = prevState;
                     applyState(loaded);
-                    FindNextChangeNotification(hNotify);
                 }
                 updateTray();
+                FindNextChangeNotification(hNotify);
             } else if (signal == hWslProc || signal == hSshProc) {
                 checkProcesses();
             }
-
-            FindNextChangeNotification(hNotify);
         }
 
         while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE)) {

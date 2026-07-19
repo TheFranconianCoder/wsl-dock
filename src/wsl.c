@@ -194,6 +194,7 @@ void checkProcesses(void) {
         CloseHandle(hSshProc);
         hSshProc = NULL;
         if (globalState == STATE_ACTIVE_SSH) {
+            Sleep(2000);
             sshStart();
         }
     }

@@ -76,3 +76,17 @@ void updateTooltip(void) {
     notifyData.uFlags |= NIF_TIP;
     Shell_NotifyIconW(NIM_MODIFY, &notifyData);
 }
+
+// ---------------------------------------------------------------------------
+// Balloon notification
+// ---------------------------------------------------------------------------
+
+void showNotification(const wchar_t* title, const wchar_t* message) {
+    notifyData.uFlags |= NIF_INFO;
+    wcscpy_s(notifyData.szInfoTitle, 64, title);
+    wcscpy_s(notifyData.szInfo, 256, message);
+    notifyData.dwInfoFlags = NIIF_INFO;
+    notifyData.uTimeout    = 5000;
+    Shell_NotifyIconW(NIM_MODIFY, &notifyData);
+    notifyData.uFlags &= ~NIF_INFO;
+}
