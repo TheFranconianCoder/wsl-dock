@@ -1,6 +1,5 @@
 #include "wsl.h"
 
-#include <stdio.h>
 #include <wchar.h>
 
 #include "app_state.h"
@@ -89,6 +88,11 @@ static void sshStop(void) {
 // ---------------------------------------------------------------------------
 
 void applyState(AppState newState) {
+    // Cancel any pending SSH retry when leaving ACTIVE_SSH
+    if (globalState == STATE_ACTIVE_SSH && newState != STATE_ACTIVE_SSH) {
+        KillTimer(hwnd, IDT_SSH_RETRY);
+    }
+
     switch (newState) {
     case STATE_INACTIVE:
         sshStop();
@@ -122,6 +126,7 @@ void applyState(AppState newState) {
 
 void wslReboot(void) {
     AppState targetState = globalState;
+    KillTimer(hwnd, IDT_SSH_RETRY);
 
     // The child processes will die when the VM terminates; null them out
     // before closeProc so we don't attempt a redundant TerminateProcess.
@@ -194,13 +199,19 @@ void checkProcesses(void) {
         CloseHandle(hSshProc);
         hSshProc = NULL;
         if (globalState == STATE_ACTIVE_SSH) {
-            Sleep(2000);
-            sshStart();
+            SetTimer(hwnd, IDT_SSH_RETRY, SSH_RETRY_DELAY_MS, NULL);
         }
     }
 }
 
+void sshRetryTimerFired(void) {
+    if (globalState == STATE_ACTIVE_SSH) {
+        sshStart();
+    }
+}
+
 void wslCleanup(void) {
+    KillTimer(hwnd, IDT_SSH_RETRY);
     closeProc(&hSshProc);
     closeProc(&hWslProc);
 }

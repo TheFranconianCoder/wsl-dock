@@ -30,6 +30,8 @@ enum {
     CONFIG_RELOAD_DEBOUNCE_MS = 100,
     PROC_TERMINATE_WAIT_MS    = 500,
     WSL_TERMINATE_WAIT_MS     = 5000,
+    SSH_RETRY_DELAY_MS        = 2000,
+    IDT_SSH_RETRY             = 301,
 
     APP_VERSION_MAJOR = 0,
     APP_VERSION_MINOR = 1,
@@ -58,3 +60,4 @@ extern wchar_t         configDir[MAX_PATH];
 extern DWORD64         lastConfigLoad;
 extern HANDLE          hWslProc;
 extern HANDLE          hSshProc;
+extern HWND            hwnd;

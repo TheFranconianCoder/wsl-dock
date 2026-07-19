@@ -18,6 +18,7 @@ wchar_t         configDir[MAX_PATH];
 DWORD64         lastConfigLoad = 0;
 HANDLE          hWslProc       = NULL;
 HANDLE          hSshProc       = NULL;
+HWND            hwnd           = NULL;
 
 // ---------------------------------------------------------------------------
 // DPI awareness
@@ -105,6 +106,13 @@ LRESULT CALLBACK wndProc(HWND hwnd, const UINT msg, const WPARAM wParam,
         updateTray();
         return 0;
 
+    case WM_TIMER:
+        if (wParam == IDT_SSH_RETRY) {
+            KillTimer(hwnd, IDT_SSH_RETRY);
+            sshRetryTimerFired();
+        }
+        return 0;
+
     case WM_DESTROY:
         Shell_NotifyIconW(NIM_DELETE, &notifyData);
         wslCleanup();
@@ -155,7 +163,7 @@ int main(void) { // NOLINT(*-function-cognitive-complexity)
     RegisterClassExW(&WIN_CLASS);
 
     // ReSharper disable once CppLocalVariableMayBeConst
-    HWND hwnd = CreateWindowExW(0, L"WD_CLASS", NULL, 0, 0, 0, 0, 0, HWND_MESSAGE, NULL, NULL, NULL);
+    hwnd = CreateWindowExW(0, L"WD_CLASS", NULL, 0, 0, 0, 0, 0, HWND_MESSAGE, NULL, NULL, NULL);
 
     notifyData.cbSize           = sizeof(NOTIFYICONDATAW);
     notifyData.hWnd             = hwnd;

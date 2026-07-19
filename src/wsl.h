@@ -6,3 +6,4 @@ void applyState(AppState newState);
 void wslReboot(void);
 void checkProcesses(void);
 void wslCleanup(void);
+void sshRetryTimerFired(void);
