@@ -7,10 +7,26 @@ task check       # zig build compile-flags → clang-format -i → clang-tidy (w
 task build        # check + zig build (ReleaseSmall, strip, LTO) → zig-out/bin/WslDock-windows-x86_64.exe
 task run          # build + launch via cmd /c start
 task build-flags  # regenerate compile_flags.txt for IDE support
-task release VERSION=x.y.z  # bump version, commit, build, gh release create (requires release_title.txt + release_notes.md)
+task release VERSION=x.y.z  # commit bumped version, build, gh release create (requires release_title.txt + release_notes.md)
 ```
 
 Raw: `mise x -- zig build`, `mise x -- zig build compile-flags`. Tools managed via `mise.toml`.
+
+## Release
+
+```sh
+task release VERSION=x.y.z  # commit bump, build, gh release create
+```
+
+Prerequisites:
+- `release_title.txt` — one-liner title (e.g. "Non-blocking SSH Retry Timer")
+- `release_notes.md` — markdown body grouped by category (Fixes, Features, etc.)
+- Version constants already bumped in `src/app_state.h` and `resource.rc`
+- No uncommitted changes
+
+Both files are deleted by the task after a successful release.
+
+Use `/bump-version` to bump the version constants — I'll walk you through the new version and update both files.
 
 ## Conventions
 
@@ -27,6 +43,6 @@ Raw: `mise x -- zig build`, `mise x -- zig build compile-flags`. Tools managed v
 | Compiler | Zig (C cross-compiler toolchain) |
 | Platform API | Win32 (`user32`, `shell32`, `kernel32`, `gdi32`, `ole32`, `advapi32`) |
 | Build | `build.zig` + `Taskfile.yml` |
-| Tools | `mise` (zig, bun, gh, cmake, ninja) |
+| Tools | `mise` (zig, gh, cmake, ninja) |
 | Icons | `icons/` — `inactive.ico`, `active.ico`, `active_ssh.ico` (multi-res) |
 | Config | `%LOCALAPPDATA%\WslDock\wsl_dock.conf` `<state> <instance>` |

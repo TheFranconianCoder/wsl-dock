@@ -36,19 +36,17 @@ tasks:
   release:
     desc: 'Create new release and publish on GitHub (Usage: task release VERSION=0.2.0)'
     summary: |
-      Prepares the release by updating version constants, builds the binary, and publishes it to GitHub.
-      Requirements: Bun, Zig, and GitHub CLI (gh) must be installed.
+      Commits version bumps, builds the binary, and publishes to GitHub.
+      Requires: Zig and GitHub CLI (gh). Version must be bumped, and
+      release_title.txt + release_notes.md must exist before running.
     cmds:
-      # 1. Update version strings
-      - mise x -- bun ./scripts/prepare-release.ts {{.VERSION}}
-
-      # 2. Automated Git Workflow
+      # 1. Commit version bump and push
       - git add src/app_state.h resource.rc
       - 'git commit -m "chore: prepare release v{{.VERSION}}"'
       - git push
-      - echo "✅ Changes committed and pushed to origin."
+      - echo "Changes committed and pushed to origin."
 
-      # 3. Build and publish
+      # 2. Build and publish
       - mise x -- zig build
       - |
         mise x -- gh release create "v{{.VERSION}}" \
@@ -56,7 +54,7 @@ tasks:
           --title "v{{.VERSION}}: $(cat release_title.txt)" \
           --notes-file release_notes.md
       - rm release_title.txt release_notes.md
-      - echo "🚀 Release v{{.VERSION}} successfully published!"
+      - echo "Release v{{.VERSION}} successfully published!"
     preconditions:
       - sh: 'test -n "{{.VERSION}}"'
         msg: 'Error: VERSION variable is missing. Example: task release VERSION=0.2.0'
